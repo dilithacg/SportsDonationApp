@@ -1,0 +1,11 @@
+{
+  "projects": {
+    "default": "sportsitemdonationp"
+  },
+  "targets": {},
+  "etags": {
+    "sportsitemdonationp": {
+      "extensionInstances": {}
+    }
+  }
+}

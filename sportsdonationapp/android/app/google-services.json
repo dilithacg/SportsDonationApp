@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1031776267722",
+    "project_id": "sportsitemdonationp",
+    "storage_bucket": "sportsitemdonationp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031776267722:android:e769917035156d8d1db333",
+        "android_client_info": {
+          "package_name": "com.example.sportsdonationapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvaxJGST65IcWiI7oHOpp4LUVc1g0I1A8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

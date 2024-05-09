@@ -1,0 +1,104 @@
+name: sportsdonationapp
+description: A new Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^4.13.6
+  firebase_auth: ^4.4.0
+  firebase_storage: ^11.6.0
+
+
+  cupertino_icons: ^1.0.2
+  introduction_screen: ^2.1.0
+  google_fonts: ^4.0.4
+  flutter_native_splash: ^2.2.19
+  dependencies:
+  liquid_swipe: ^3.1.0
+  smooth_page_indicator: ^1.1.0
+  firebase_core: ^2.24.2
+  image_picker: ^1.0.4
+  carousel_slider: ^4.2.1
+  firebase_app_installations: ^0.2.4+8
+  google_maps_flutter: ^2.1.0
+  intl: ^0.17.0
+  location: ^4.3.0
+  url_launcher: ^6.1.11
+  firebase_messaging: ^14.7.10
+  flutter_svg: ^2.0.5
+  youtube_player_flutter: ^8.1.2
+  flutter_rating_bar: ^4.0.1
+  google_nav_bar: ^5.0.6
+  shared_preferences: ^2.2.2
+  firebase_analytics: ^10.8.0
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+
+
+flutter_native_splash:
+  color: "#3f51b5"
+  image: "assets/Icons/ob2.png"
+
+
+
+
+
+flutter:
+
+
+  uses-material-design: true
+  assets:
+
+    - assets/images/ins1.jpg
+    - assets/images/b1.jpg
+    - assets/images/b2.jpg
+    - assets/images/b3.png
+    - assets/images/b4.jpg
+    - assets/images/on1.png
+    - assets/images/on3.png
+    - assets/images/on2.png
+    - assets/images/bgi.jpg
+    - assets/images/ins1.jpg
+    - assets/images/ins2.jpg
+    - assets/images/ins3.jpg
+    - assets/images/foot.png
+    - assets/Icons/cricI.png
+    - assets/Icons/football.png
+    - assets/Icons/game.png
+    - assets/Icons/wapp.png
+    - assets/Icons/rugby.png
+    - assets/Icons/volleyball.png
+    - assets/Icons/customer-service.png
+    - assets/Icons/ob1.png
+    - assets/Icons/ob2.png
+    - assets/Icons/ob3.png
+    - assets/Icons/user.png
+    - assets/images/carousel_image1.jpg
+    - assets/images/carousel_image2.jpg
+    - assets/images/carousel_image3.jpg
+
+
+
+
+
+
+
+
+
