@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:sportsdonationapp/src/features/screens/Home_Screen/setting.dart';
@@ -21,7 +22,27 @@ class CategoriesScreen extends StatefulWidget {
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
   int _selectedIndex = 0;
+  List<String> imageUrls = [];
 
+  @override
+  void initState() {
+    super.initState();
+    fetchImageUrls();
+  }
+
+  void fetchImageUrls() async {
+    // Fetch image URLs from Firestore
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('carousel_images').get();
+      if (mounted) {
+        setState(() {
+          imageUrls = querySnapshot.docs.map((doc) => doc['url'] as String).toList();
+        });
+      }
+    } catch (e) {
+      print('Error fetching image URLs: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +100,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       children: [
         SizedBox(height: 20),
         CarouselSlider(
-          items: CarouselItems.items.map((imagePath) {
+          items: imageUrls.map((url) {
             return Container(
               margin: EdgeInsets.symmetric(horizontal: 5.0),
               decoration: BoxDecoration(
@@ -95,8 +116,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.0),
-                child: Image.asset(
-                  imagePath,
+                child: Image.network(
+                  url,
                   fit: BoxFit.cover,
                 ),
               ),

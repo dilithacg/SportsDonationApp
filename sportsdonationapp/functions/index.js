@@ -130,5 +130,91 @@ exports.item_requestsNotification = functions.firestore.document('item_requests/
         }
     });
 
+ exports.sendNotification = functions.firestore.document('item_requests/{documentId}')
+     .onUpdate((change, context) => {
+         const newValue = change.after.data();
+         const previousValue = change.before.data();
+
+         // Check if completed status changed
+         if (newValue.completed !== previousValue.completed) {
+             const donatorID = newValue.donatorID;
+             const requestorID = newValue.requestorID;
+             const messageDonator = newValue.completed ? 'Your donated item for ' + newValue.itemName + ' has been successfully delivered.' : 'Your donated item for ' + newValue.itemName + ' has not been delivered yet.';
+             const messageRequestor = newValue.completed ? 'Thanks for ordering ' + newValue.itemName + '!' : 'Your order for ' + newValue.itemName + ' has not been delivered yet.';
+
+             // Retrieve FCM tokens and user details from Firestore for both donator and requestor
+             const donatorPromise = admin.firestore().collection('users').doc(donatorID).get();
+             const requestorPromise = admin.firestore().collection('users').doc(requestorID).get();
+
+             return Promise.all([donatorPromise, requestorPromise])
+                 .then(docs => {
+                     const donatorDoc = docs[0];
+                     const requestorDoc = docs[1];
+
+                     // Check if both donator and requestor documents exist and contain FCM tokens
+                     if (donatorDoc.exists && donatorDoc.data().fcmToken && requestorDoc.exists && requestorDoc.data().fcmToken) {
+                         const donatorToken = donatorDoc.data().fcmToken;
+                         const requestorToken = requestorDoc.data().fcmToken;
+
+                         // Send notifications to both donator and requestor
+                         const donatorPayload = {
+                             notification: {
+                                 title: 'Item Donation Status',
+                                 body: messageDonator
+                             }
+                         };
+
+                         const requestorPayload = {
+                             notification: {
+                                 title: 'Order Status',
+                                 body: messageRequestor
+                             }
+                         };
+
+                         // Save notification details in Firestore for both donator and requestor
+                         const donatorNotificationData = {
+                             title: 'Item Donation Status',
+                             body: messageDonator,
+                             timestamp: admin.firestore.FieldValue.serverTimestamp(),
+                             userId: donatorID
+                         };
+
+                         const requestorNotificationData = {
+                             title: 'Order Status',
+                             body: messageRequestor,
+                             timestamp: admin.firestore.FieldValue.serverTimestamp(),
+                             userId: requestorID
+                         };
+
+                         const donatorNotificationPromise = admin.messaging().sendToDevice(donatorToken, donatorPayload);
+                         const requestorNotificationPromise = admin.messaging().sendToDevice(requestorToken, requestorPayload);
+
+                         const donatorFirestorePromise = admin.firestore().collection('notifications').add(donatorNotificationData);
+                         const requestorFirestorePromise = admin.firestore().collection('notifications').add(requestorNotificationData);
+
+                         return Promise.all([donatorNotificationPromise, requestorNotificationPromise, donatorFirestorePromise, requestorFirestorePromise])
+                             .then(() => {
+                                 console.log('Notifications sent successfully');
+                                 return null;
+                             })
+                             .catch(error => {
+                                 console.error('Error sending notifications:', error);
+                                 return null;
+                             });
+                     } else {
+                         console.log('FCM tokens not found for both donator and requestor');
+                         return null;
+                     }
+                 })
+                 .catch(error => {
+                     console.error('Error retrieving FCM tokens:', error);
+                     return null;
+                 });
+         } else {
+             return null;
+         }
+     });
+
+
 
 

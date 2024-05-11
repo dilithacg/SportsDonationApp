@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:sportsdonationapp/src/features/screens/Home_Screen/spvideos.dart';
 import '../Coaches_Screen/coaches.dart';
 import '../Donation_Screen/items_screen.dart';
@@ -54,6 +55,9 @@ class CategoryGridItem extends StatelessWidget {
                   category.title,
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onBackground,
+                    fontSize: 19,
+                    fontWeight: FontWeight.bold,
+
                   ),
                 ),
               ),
@@ -103,6 +107,7 @@ class CategoryGridItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CoachesScreen()),
+
         );
         break;
 

@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'colors.dart';
+
+void main() {
+  runApp(MaterialApp(
+    title: 'Approved Requests',
+    home: Approved(),
+  ));
+}
+
 class Approved extends StatefulWidget {
   const Approved({Key? key}) : super(key: key);
 
@@ -9,11 +18,14 @@ class Approved extends StatefulWidget {
 }
 
 class _ApprovedState extends State<Approved> {
+  List<String> completedRequests = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Approved Requests'),
+        backgroundColor: Colors.black,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -43,6 +55,8 @@ class _ApprovedState extends State<Approved> {
               List<String> itemImages = List<String>.from(document['itemImages']);
               String firstImage = itemImages.isNotEmpty ? itemImages[0] : '';
               String evidenceImageUrl = document['evidenceImageUrl'];
+
+              bool isCompleted = completedRequests.contains(document.id);
 
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -148,12 +162,30 @@ class _ApprovedState extends State<Approved> {
                           ),
                         ),
                         SizedBox(width: 20),
+
                         // Complete Button
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.sThColor,
+                          ),
                           onPressed: () {
-                            // Handle completion
+                            // Update Firestore document
+                            FirebaseFirestore.instance
+                                .collection('item_requests')
+                                .doc(document.id) // Assuming 'id' is the document ID
+                                .update({'completed': true})
+                                .then((_) {
+                              print('Document marked as completed successfully');
+                              setState(() {
+                                completedRequests.add(document.id);
+                              });
+                            }).catchError((error) {
+                              print('Error marking document as completed: $error');
+                            });
                           },
-                          child: Text('Complete'),
+
+                          child: Text(isCompleted ? 'Completed' : 'Complete'),
+
                         ),
                       ],
                     ),
@@ -171,11 +203,4 @@ class _ApprovedState extends State<Approved> {
     // Implement your navigation logic here
     // For example, navigate to a full-screen image view
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    title: 'Approved Requests',
-    home: Approved(),
-  ));
 }

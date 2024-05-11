@@ -86,6 +86,18 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
         child: Container(
           width: 400.0,
           height: 400.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: Offset(0, 3),
+              ),
+            ],
+          ),
           child: Padding(
             padding: EdgeInsets.all(20.0),
             child: Column(
@@ -94,14 +106,21 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                 TextField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(labelText: 'Email'),
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
+                SizedBox(height: 20.0),
                 TextField(
                   controller: _passwordController,
                   obscureText: true,
-                  decoration: InputDecoration(labelText: 'Password'),
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-                SizedBox(height: 40.0),
+                SizedBox(height: 20.0),
                 ElevatedButton(
                   onPressed: _isLoading ? null : _loginAsAdmin,
                   style: ElevatedButton.styleFrom(
@@ -110,26 +129,23 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      if (_isLoading)
-                        CircularProgressIndicator(),
-                      Text('Login as Admin'),
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: _isLoading ? CircularProgressIndicator() : Text('Login as Admin', style: TextStyle(fontSize: 16.0)),
                   ),
                 ),
+                SizedBox(height: 10.0),
                 if (_errorMessage.isNotEmpty)
                   Text(
                     _errorMessage,
                     style: TextStyle(color: Colors.red),
                   ),
-
               ],
             ),
           ),
         ),
       ),
+
     );
   }
 }

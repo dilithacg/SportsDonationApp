@@ -23,11 +23,11 @@ class ButtonImg{
   ];
 }
 
-class CarouselItems {
-  static const List<String> items = [
-    'assets/images/carousel_image1.jpg',
-    'assets/images/carousel_image2.jpg',
-    'assets/images/carousel_image3.jpg',
-    // Add more image paths as needed
-  ];
-}
+//class CarouselItems {
+  //static const List<String> items = [
+   // 'assets/images/carousel_image1.jpg',
+   // 'assets/images/carousel_image2.jpg',
+   // 'assets/images/carousel_image3.jpg',
+   // Add more image paths as needed
+  //];
+//}

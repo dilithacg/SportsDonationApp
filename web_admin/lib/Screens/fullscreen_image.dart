@@ -12,7 +12,7 @@ class FullScreenImage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('Full Size Image'),
+
       ),
       body: Container(
         child: PhotoView(

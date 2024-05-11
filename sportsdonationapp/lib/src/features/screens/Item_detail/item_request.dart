@@ -5,6 +5,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../constants/colors.dart';
+
 class ItemRequest extends StatefulWidget {
   final String itemName;
   final List<String> itemImages;
@@ -150,8 +152,17 @@ class _ItemRequestState extends State<ItemRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Item Request'),
-        centerTitle: true,
+        backgroundColor: MyColors.sPSecondaryColor,
+        automaticallyImplyLeading: false,
+        title: const Center(
+          child: Text(
+            'Item Request',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 22,
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -160,7 +171,13 @@ class _ItemRequestState extends State<ItemRequest> {
           children: [
             ElevatedButton(
               onPressed: _pickImage,
-              child: Text('Upload Evidence Image'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.black, // Text color
+              ),
+              child: Text('Upload Evidence Image',
+                  style: TextStyle(color: Colors.white)),
+
             ),
             SizedBox(height: 16),
             _selectedImage != null
@@ -212,14 +229,14 @@ class _ItemRequestState extends State<ItemRequest> {
             Text(
               'Available Items: ${widget.itemCount}',
               style: TextStyle(
-                color: Colors.white70,
+                color: Colors.black54,
               ),
             ),
             SizedBox(height: 16),
             Text(
               'Request Items: $requestedItemCount',
               style: TextStyle(
-                color: Colors.white70, // Choose your desired color here
+                color: Colors.black54, // Choose your desired color here
               ),
             ),
             Row(
@@ -252,9 +269,25 @@ class _ItemRequestState extends State<ItemRequest> {
               ],
             ),
             SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _submitRequest,
-              child: Text('Submit Request'),
+            Center(
+              child: Container(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: MyColors.sThColor,
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 42,
+                        vertical: 16), // Text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: _submitRequest,
+                  child: Text('Submit Request',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

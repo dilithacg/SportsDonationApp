@@ -2,7 +2,9 @@ import 'dart:typed_data'; // Import for handling image bytes
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestore library
 import 'package:firebase_storage/firebase_storage.dart'; // Firebase Storage library
 import 'package:flutter/material.dart'; // Flutter Material library
-import 'package:image_picker/image_picker.dart'; // Image Picker library
+import 'package:image_picker/image_picker.dart';
+
+import 'colors.dart'; // Image Picker library
 
 class AddTextToFirestore extends StatefulWidget {
   @override
@@ -86,82 +88,81 @@ class _AddTextToFirestoreState extends State<AddTextToFirestore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Data to Firestore'),
+        title: Text('Add Coaches'),
+        backgroundColor: Colors.black,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Display selected image if available
-              if (_imageBytes != null) Image.memory(_imageBytes!),
-              // Button to select image
-              ElevatedButton(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Display selected image if available
+            if (_imageBytes != null) Image.memory(_imageBytes!),
+            SizedBox(height: 20.0),
+            // Button to select image
+            Container(
+              decoration: BoxDecoration(
+                color: MyColors.sThColor,
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: ElevatedButton.icon(
                 onPressed: _pickImage,
-                child: Text('Select Image'),
-              ),
-              // Text fields for entering coach details
-              TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: 'Name',
+                icon: Icon(Icons.image),
+                label: Text('Select Image'),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
                 ),
               ),
-              TextField(
-                controller: _sportController,
-                decoration: InputDecoration(
-                  labelText: 'Sport',
+            ),
+            SizedBox(height: 20.0),
+            // Text fields for entering coach details
+            _buildTextField(_nameController, 'Name'),
+            SizedBox(height: 10.0),
+            _buildTextField(_sportController, 'Sport'),
+            SizedBox(height: 10.0),
+            _buildTextField(_districtController, 'District'),
+            SizedBox(height: 10.0),
+            _buildTextField(_cityController, 'City'),
+            SizedBox(height: 10.0),
+            _buildTextField(_phoneNumberController, 'Phone Number'),
+            SizedBox(height: 10.0),
+            _buildTextField(_detailController, 'Detail'),
+            SizedBox(height: 10.0),
+            _buildTextField(_priceController, 'Price'),
+            SizedBox(height: 20.0),
+            // Button to add data to Firestore
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyColors.sThColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              TextField(
-                controller: _districtController,
-                decoration: InputDecoration(
-                  labelText: 'District',
-                ),
-              ),
-              TextField(
-                controller: _cityController,
-                decoration: InputDecoration(
-                  labelText: 'City',
-                ),
-              ),
-              TextField(
-                controller: _phoneNumberController,
-                decoration: InputDecoration(
-                  labelText: 'Phone Number',
-                ),
-              ),
-              TextField(
-                controller: _detailController,
-                decoration: InputDecoration(
-                  labelText: 'Detail',
-                ),
-              ),
-              TextField(
-                controller: _priceController,
-                decoration: InputDecoration(
-                  labelText: 'Price',
-                ),
-              ),
-              SizedBox(height: 20.0),
-              // Button to add data to Firestore
-              ElevatedButton(
-                onPressed: () {
-                  String name = _nameController.text;
-                  String sport = _sportController.text;
-                  String district = _districtController.text;
-                  String city = _cityController.text;
-                  String phoneNumber = _phoneNumberController.text;
-                  String price = _priceController.text;
-                  String detail = _detailController.text;
-                  _addTextAndImageToFirestore(name, sport, district, city, phoneNumber, price, detail);
-                },
-                child: Text('Add Data to Firestore'),
-              ),
-            ],
-          ),
+              onPressed: () {
+                String name = _nameController.text;
+                String sport = _sportController.text;
+                String district = _districtController.text;
+                String city = _cityController.text;
+                String phoneNumber = _phoneNumberController.text;
+                String price = _priceController.text;
+                String detail = _detailController.text;
+                _addTextAndImageToFirestore(name, sport, district, city, phoneNumber, price, detail);
+              },
+              child: Text('Add Data',
+                style: TextStyle(color: Colors.white),),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
       ),
     );
   }
