@@ -5,4 +5,4 @@
 
 # Adminweb
 - get dependencies run 'flutter pub get'
-- run project 'flutter run'
+- run project 'flutter run -d chrome --web-renderer html'
